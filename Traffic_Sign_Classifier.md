@@ -1071,7 +1071,7 @@ Writeup:
 The size of training set is 34799
 The size of test set is 12630
 The shape of a traffic sign image is (32, 32, 3)
-The number of unique classes/labels in the data set is 43
+The number of unique classes/labels in the data set is 43.
 
 2. I was having a look at all the different different classes present using the module csv and also the unequal distributiom
    of different classes as Speed Limit(20km/h) had only 180 images but Speed Limit(50km/h) had 2010 images.
@@ -1080,7 +1080,8 @@ The number of unique classes/labels in the data set is 43
 
 | Layer        | Description    |
 | :------------- :|:-------------|
-| Input      | 5x5	1x1 stride, 'VALID' padding, outputs 28x28x6 |
+| Input      | (32,32,3) images |
+|Convolution | 5x5	1x1 stride, 'VALID' padding, outputs 28x28x16     |
 | RELU     |       |
 | Max pooling | 2x2 stride, outputs 14x14x6      |
 |Convolution | 5x5	1x1 stride, 'VALID' padding, outputs 10x10x16     |
@@ -1108,7 +1109,9 @@ Dropout = 0.8 (training only)
 My final model results were:
 
 training set accuracy of 100%
+
 validation set accuracy of 95.4%
+
 test set accuracy of 93.7%
 
 The number of epochs are 100 but validation accuracy of 93% was acheived at 17th epoch itself. Data augmentation was done but even after changing of parameters the quality degraded so was removed ultimately. Dropout layers addition was the biggest upgrade and that was solely responsible for boosting the accuracy. 
@@ -1127,14 +1130,78 @@ The number of epochs are 100 but validation accuracy of 93% was acheived at 17th
 [image5]: ./5.jpg
 ![alt text][image5]
 
+Qualities of these images which can influence the classification results:
+    In the training dataset Road work and Right-of way and Speed limit (60km/h) images have more than a 1000 training images which will make it easier for the classifier to rightly predict the test images regarding these classes than the class wild animals crossing as it had only 690 training images in the training dataset. Data augmentation may have helped in this case.
+
 | Image        | Prediction    |
 | ------------- |:-------------:|
 | Road work      | Road Work |
 | Children crossing      | Children crossing |
-| Right-of-way      | Right-of-way |
+| Right-of-way at the next intersection     | Right-of-way at the next intersection|
 | Speed limit (60km/h)      | Speed limit (60km/h) |
-| Wild animals crossing      | Road work |
-
+| Wild animals crossing      | Slippery road |
 
 
 The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%.
+It is worse than the test accuracy but that is considering the very small dataset on which to test. This difference is not significant as if there were only 2 images to test and one turned out to be wrong the accuracy would have been rendered to be only 50% but the model cannot be judged on the basis of that.
+
+
+  True class : Road work
+       
+| Image        | Probability    |
+| ------------- |:-------------:|
+| Road work      | 1 |
+| Beware of ice/snow     | 3.6676537e-09 |
+| Wild animals crossing      | 9.9423997e-11 |
+| Road narrows on the right     | 1.7593919e-11 |
+| Slippery road      | 1.1513488e-11 |
+
+    Training examples were adequate and classification is on point.
+
+  True class : Children crossing
+       
+| Image        | Probability    |
+| ------------- |:-------------:|
+| Children crossing      | 8.9758235e-01 |
+| Right-of-way at the next intersection     | 6.1855733e-02 |
+| Beware of ice/snow      | 4.0561959e-02 |
+| Dangerous curve to the right    | 1.2780899e-10 |
+| End of no passing     | 1.6494582e-12 |
+
+    The training set images of class "Children Crossing" are only 480 in number which is in the top half of sorted images by class number in the histogram above for visualizaion because of which it is not very certain of its prediction. 
+
+  True class : Right-of-way at the next intersection
+       
+| Image        | Probability    |
+| ------------- |:-------------:|
+| Right-of-way at the next intersection      | 1 |
+| Pedestrians     | 5.3717480e-13 |
+| Double curve      | 3.6221782e-14 |
+| Dangerous curve to the left     | 1.3103978e-18 |
+| General caution      | 5.9733079e-21 |
+
+    Training examples were adequate and classification is on point.
+
+  True class : Speed limit (60km/h) 
+       
+| Image        | Probability    |
+| ------------- |:-------------:|
+| Speed limit (60km/h)      | 9.8917222e-01 |
+| Speed limit (50km/h)     | 1.0827699e-02 |
+| Keep right      | 5.8223799e-12 |
+| Wild animals crossing     | 3.2610995e-15 |
+| Slippery road      | 1.0596048e-15 |
+
+    Classification is on point. The 2nd highly classified image is Speed limit (50km/h) which is very similar in looks to Speed limit (60km/h) as the numbers 50 and 60 can be indistuingshable at times with 32x32 images.
+
+  True class : Wild animals crossing 
+       
+| Image        | Probability    |
+| ------------- |:-------------:|
+| Slippery road      | 7.3943359e-01 |
+| Dangerous curve to the right     | 2.5745723e-01 |
+| Wild animals crossing      |3.0973367e-03 |
+| Children crossing    |  5.5487453e-06 |
+|Beware of ice/snow   | 3.5537919e-06 |
+
+    In the training dataset other class images have more than a 1000 training images which will make it easier for the classifier to rightly predict the test images regarding these classes than the class " wild animals crossing" as it had only 690 training images in the training dataset. Data augmentation may have helped in this case.

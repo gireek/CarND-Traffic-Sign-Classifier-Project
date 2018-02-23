@@ -13280,7 +13280,7 @@ a = np.array([[ 0.24879643,  0.07032244,  0.12641572,  0.34763842,  0.07893497,
 The size of training set is 34799
 The size of test set is 12630
 The shape of a traffic sign image is (32, 32, 3)
-The number of unique classes/labels in the data set is 43</p>
+The number of unique classes/labels in the data set is 43.</p>
 <ol>
 <li><p>I was having a look at all the different different classes present using the module csv and also the unequal distributiom
 of different classes as Speed Limit(20km/h) had only 180 images but Speed Limit(50km/h) had 2010 images.</p>
@@ -13297,7 +13297,11 @@ of different classes as Speed Limit(20km/h) had only 180 images but Speed Limit(
 <tbody>
 <tr>
 <td style="text-align:center">Input</td>
-<td style="text-align:left">5x5  1x1 stride, 'VALID' padding, outputs 28x28x6</td>
+<td style="text-align:left">(32,32,3) images</td>
+</tr>
+<tr>
+<td style="text-align:center">Convolution</td>
+<td style="text-align:left">5x5  1x1 stride, 'VALID' padding, outputs 28x28x16</td>
 </tr>
 <tr>
 <td style="text-align:center">RELU</td>
@@ -13364,9 +13368,9 @@ Learning rate = 0.001
 Optimizer - Adam algorithm (alternative of stochastic gradient descent). Optimizer uses backpropagation to update the network and minimize training loss.
 Dropout = 0.8 (training only)</p>
 <p>My final model results were:</p>
-<p>training set accuracy of 100%
-validation set accuracy of 95.4%
-test set accuracy of 93.7%</p>
+<p>training set accuracy of 100%</p>
+<p>validation set accuracy of 95.4%</p>
+<p>test set accuracy of 93.7%</p>
 <p>The number of epochs are 100 but validation accuracy of 93% was acheived at 17th epoch itself. Data augmentation was done but even after changing of parameters the quality degraded so was removed ultimately. Dropout layers addition was the biggest upgrade and that was solely responsible for boosting the accuracy.</p>
 <p>5 different images found on web:</p>
 <p><img src="./1.jpg" alt="alt text"></p>
@@ -13374,6 +13378,8 @@ test set accuracy of 93.7%</p>
 <p><img src="./3.jpg" alt="alt text"></p>
 <p><img src="./4.jpg" alt="alt text"></p>
 <p><img src="./5.jpg" alt="alt text"></p>
+<p>Qualities of these images which can influence the classification results:
+    In the training dataset Road work and Right-of way and Speed limit (60km/h) images have more than a 1000 training images which will make it easier for the classifier to rightly predict the test images regarding these classes than the class wild animals crossing as it had only 690 training images in the training dataset. Data augmentation may have helped in this case.</p>
 <table>
 <thead><tr>
 <th>Image</th>
@@ -13390,8 +13396,8 @@ test set accuracy of 93.7%</p>
 <td style="text-align:center">Children crossing</td>
 </tr>
 <tr>
-<td>Right-of-way</td>
-<td style="text-align:center">Right-of-way</td>
+<td>Right-of-way at the next intersection</td>
+<td style="text-align:center">Right-of-way at the next intersection</td>
 </tr>
 <tr>
 <td>Speed limit (60km/h)</td>
@@ -13399,11 +13405,180 @@ test set accuracy of 93.7%</p>
 </tr>
 <tr>
 <td>Wild animals crossing</td>
-<td style="text-align:center">Road work</td>
+<td style="text-align:center">Slippery road</td>
 </tr>
 </tbody>
 </table>
-<p>The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%.</p>
+<p>The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%.
+It is worse than the test accuracy but that is considering the very small dataset on which to test. This difference is not significant as if there were only 2 images to test and one turned out to be wrong the accuracy would have been rendered to be only 50% but the model cannot be judged on the basis of that.</p>
+<p>True class : Road work</p>
+<table>
+<thead><tr>
+<th>Image</th>
+<th style="text-align:center">Probability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Road work</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td>Beware of ice/snow</td>
+<td style="text-align:center">3.6676537e-09</td>
+</tr>
+<tr>
+<td>Wild animals crossing</td>
+<td style="text-align:center">9.9423997e-11</td>
+</tr>
+<tr>
+<td>Road narrows on the right</td>
+<td style="text-align:center">1.7593919e-11</td>
+</tr>
+<tr>
+<td>Slippery road</td>
+<td style="text-align:center">1.1513488e-11</td>
+</tr>
+</tbody>
+</table>
+
+<pre><code>Training examples were adequate and classification is on point.
+
+</code></pre>
+<p>True class : Children crossing</p>
+<table>
+<thead><tr>
+<th>Image</th>
+<th style="text-align:center">Probability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Children crossing</td>
+<td style="text-align:center">8.9758235e-01</td>
+</tr>
+<tr>
+<td>Right-of-way at the next intersection</td>
+<td style="text-align:center">6.1855733e-02</td>
+</tr>
+<tr>
+<td>Beware of ice/snow</td>
+<td style="text-align:center">4.0561959e-02</td>
+</tr>
+<tr>
+<td>Dangerous curve to the right</td>
+<td style="text-align:center">1.2780899e-10</td>
+</tr>
+<tr>
+<td>End of no passing</td>
+<td style="text-align:center">1.6494582e-12</td>
+</tr>
+</tbody>
+</table>
+
+<pre><code>The training set images of class "Children Crossing" are only 480 in number which is in the top half of sorted images by class number in the histogram above for visualizaion because of which it is not very certain of its prediction. 
+
+</code></pre>
+<p>True class : Right-of-way at the next intersection</p>
+<table>
+<thead><tr>
+<th>Image</th>
+<th style="text-align:center">Probability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Right-of-way at the next intersection</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td>Pedestrians</td>
+<td style="text-align:center">5.3717480e-13</td>
+</tr>
+<tr>
+<td>Double curve</td>
+<td style="text-align:center">3.6221782e-14</td>
+</tr>
+<tr>
+<td>Dangerous curve to the left</td>
+<td style="text-align:center">1.3103978e-18</td>
+</tr>
+<tr>
+<td>General caution</td>
+<td style="text-align:center">5.9733079e-21</td>
+</tr>
+</tbody>
+</table>
+
+<pre><code>Training examples were adequate and classification is on point.
+
+</code></pre>
+<p>True class : Speed limit (60km/h)</p>
+<table>
+<thead><tr>
+<th>Image</th>
+<th style="text-align:center">Probability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Speed limit (60km/h)</td>
+<td style="text-align:center">9.8917222e-01</td>
+</tr>
+<tr>
+<td>Speed limit (50km/h)</td>
+<td style="text-align:center">1.0827699e-02</td>
+</tr>
+<tr>
+<td>Keep right</td>
+<td style="text-align:center">5.8223799e-12</td>
+</tr>
+<tr>
+<td>Wild animals crossing</td>
+<td style="text-align:center">3.2610995e-15</td>
+</tr>
+<tr>
+<td>Slippery road</td>
+<td style="text-align:center">1.0596048e-15</td>
+</tr>
+</tbody>
+</table>
+
+<pre><code>Classification is on point. The 2nd highly classified image is Speed limit (50km/h) which is very similar in looks to Speed limit (60km/h) as the numbers 50 and 60 can be indistuingshable at times with 32x32 images.
+
+</code></pre>
+<p>True class : Wild animals crossing</p>
+<table>
+<thead><tr>
+<th>Image</th>
+<th style="text-align:center">Probability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Slippery road</td>
+<td style="text-align:center">7.3943359e-01</td>
+</tr>
+<tr>
+<td>Dangerous curve to the right</td>
+<td style="text-align:center">2.5745723e-01</td>
+</tr>
+<tr>
+<td>Wild animals crossing</td>
+<td style="text-align:center">3.0973367e-03</td>
+</tr>
+<tr>
+<td>Children crossing</td>
+<td style="text-align:center">5.5487453e-06</td>
+</tr>
+<tr>
+<td>Beware of ice/snow</td>
+<td style="text-align:center">3.5537919e-06</td>
+</tr>
+</tbody>
+</table>
+
+<pre><code>In the training dataset other class images have more than a 1000 training images which will make it easier for the classifier to rightly predict the test images regarding these classes than the class " wild animals crossing" as it had only 690 training images in the training dataset. Data augmentation may have helped in this case.</code></pre>
 
 </div>
 </div>
